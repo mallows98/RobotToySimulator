@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace RobotToySimulator
+﻿namespace RobotToySimulator.Library
 {
     public class Robot
     {
