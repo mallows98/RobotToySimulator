@@ -1,11 +1,17 @@
 ﻿using System;
 
-namespace RobotToySimulator
+namespace RobotToySimulator.Library
 {
     public class RobotSimulatorCommand : ISimulatorCommand
     {
         public void Left(Robot robot)
         {
+            if (robot == null)
+                throw new ArgumentException("Robot does not exist");
+
+            if (robot.Position == null)
+                throw new ArgumentException("Robot positioning is not set");
+
             switch (robot.Position.CardinalDirection)
             {
                 case CardinalDirection.North:
@@ -25,8 +31,18 @@ namespace RobotToySimulator
 
         public void Move(Robot robot)
         {
+            if(robot == null)
+                throw new ArgumentException("Robot does not exist");
 
-            var initialPosition = robot.Position;
+            if (robot.Position == null)
+                throw new ArgumentException("Robot positioning is not set");
+
+            var initialPosition = new Position
+            {
+                XAxis = robot.Position.XAxis,
+                YAxis = robot.Position.YAxis,
+                CardinalDirection = robot.Position.CardinalDirection
+            };
 
             switch (robot.Position.CardinalDirection)
             {
@@ -44,24 +60,42 @@ namespace RobotToySimulator
                     break;
             }
 
+            var positionStatus = new PositionStatus(robot.Position);
+            if (!positionStatus.IsPositionValid)
+                robot.Position = initialPosition;
         }
 
         public void Place(Robot robot, Position position)
         {
-            robot.Position = position;
+            if (robot == null)
+                throw new ArgumentException("Robot does not exist");
+
+            var positionStatus = new PositionStatus(position);
+
+            robot.Position = (!positionStatus.IsPositionValid)
+                ? new Position { CardinalDirection = CardinalDirection.North, XAxis = 0, YAxis = 0} : position;
         }
 
         public PositionStatus Report(Robot robot)
         {
+            if (robot == null)
+                throw new ArgumentException("Robot does not exist");
+
             var status = new PositionStatus(robot.Position);
             status.Message = status.IsPositionValid
                 ? "Position valid"
-                : "Position is out of bounds";
+                : "Position is out of bounds or null";
             return status;
         }
 
         public void Right(Robot robot)
         {
+            if (robot == null)
+                throw new ArgumentException("Robot does not exist");
+
+            if (robot.Position == null)
+                throw new ArgumentException("Robot positioning is not set");
+
             switch (robot.Position.CardinalDirection)
             {
                 case CardinalDirection.North:

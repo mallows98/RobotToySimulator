@@ -1,4 +1,4 @@
-﻿namespace RobotToySimulator
+﻿namespace RobotToySimulator.Library
 {
     public enum CardinalDirection
     {
