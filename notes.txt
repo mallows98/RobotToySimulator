@@ -1,0 +1,26 @@
+		North
+		   |
+		   
+	West <       >	East
+			|	
+				
+			South
+			
+			
+			
+			
+Facing North:
+L - West
+R - East
+
+Facing South:
+L - East
+R - West
+
+Facing East:
+L - North
+R - South
+
+Facing West:
+L - South
+R - North
